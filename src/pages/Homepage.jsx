@@ -1,30 +1,42 @@
 import { useEffect, useState } from "react";
-//import PollCard from "../components/pollCard";
+import PollCard from "../components/pollCard";
+import { getPolls } from "../api/polls";
 
 function Homepage() {
   const [polls, setPolls] = useState([]);
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchPolls();
+    loadPolls();
   }, []);
 
-  async function fetchPolls() {
+  async function loadPolls() {
     try {
-      const response = await fetch("http://localhost:8080/polls");
-      const data = await response.json();
-      setPolls(data);
+      const data = await getPolls()
+      setPolls(data)
     } catch (error) {
       console.error(error);
+    }finally{
+      setLoading(false)
     }
+  }
+
+  if(loading){
+    return <h2>Loading...</h2>
   }
 
   return (
     <div>
-      <h1>Polling App</h1>
-
-      {/* {polls.map((poll) => (
-        <PollCard key={poll.id} poll={poll} />
-      ))} */}
+      {polls.length === 0 ?(
+        <p>No Polls availiable</p>
+      ):(
+        polls.map((poll) => (
+        <PollCard 
+        key={poll.id} 
+        poll={poll} 
+        />
+        ))
+      )}
     </div>
   );
 }

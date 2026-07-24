@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 
-function NavBar({ props }) {
+function NavBar() {
     return(
         <nav>
-            <Link to="/">Home</Link>
+            <h1>Polling App</h1>
 
+            <Link to="/">Home</Link>
+            
             <Link to="/create">Poll</Link>
         </nav>
     )
